@@ -38,6 +38,7 @@ class CSP(object):
     * var_to_const, a variable to set of constraints dictionary
     """
 
+    # this contraint is hard constraints
     def __init__(self, domains, constraints):
         """domains is a variable:domain dictionary
         constraints is a list of constriants

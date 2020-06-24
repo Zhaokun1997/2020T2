@@ -1,10 +1,6 @@
 #!/bin/sh
 
 
-
-
-
-
 RANDOM=$$
 s=$RANDOM
 RANDOM=$$
@@ -17,7 +13,6 @@ while test $s -le $e
 do
    lines="$s"$'\n'"$lines";
    s=$(expr $s + 1);
-   
 done
 t=$(echo "$lines" | sed "/^$/d"|./shuffle.pl|sort)
 r=$(echo "$lines" | sed "/^$/d"|sort)
@@ -29,12 +24,4 @@ else
 
    echo "fail"
 fi
-
-
-
-
-
-
-
-
 
