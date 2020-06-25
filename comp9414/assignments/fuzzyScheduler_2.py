@@ -106,47 +106,47 @@ for line in file:
     soft_constraint = {}
     soft_cost = {}
     task_list = []
-    # get varible and domain
-    if 'tasks' in line:
-        for line in file:
-            if '#' in line:
-                break
-            line = line.strip()
-            line = line.replace(',', '')
-            line = line.split(' ')
-            task_duration[line[1]] = int(line[2])
+    # # get varible and domain
+    # if 'tasks' in line:
+    #     for line in file:
+    #         if '#' in line:
+    #             break
+    #         line = line.strip()
+    #         line = line.replace(',', '')
+    #         line = line.split(' ')
+    #         task_duration[line[1]] = int(line[2])
+    #
+    # for task in task_duration:
+    #     di = set()
+    #     duration = task_duration[task]
+    #     for item in domain:
+    #         if item % 10 + int(duration) <= 9:
+    #             di.add(item)
+    #     task_domain[task] = sorted(set((x, x + duration) for x in di))
 
-    for task in task_duration:
-        di = set()
-        duration = task_duration[task]
-        for item in domain:
-            if item % 10 + int(duration) <= 9:
-                di.add(item)
-        task_domain[task] = sorted(set((x, x + duration) for x in di))
-
-    # get binary constraints
-    if 'binary' in line:
-        for line in file:
-            if '#' in line:
-                break
-            line = line.strip()
-            line = line.replace(',', '')
-            line = line.split(' ')
-            # print(line)
-            t1 = line[1]
-            t2 = line[3]
-            if line[2] == 'before':
-                # print('hhhhhhhh')
-                hard_constraint.append(Constraint((t1, t2), binary_before))
-
-            if line[2] == 'after':
-                pass
-
-            if line[2] == 'same-day':
-                hard_constraint.append(Constraint((t1, t2), binary_same_day))
-
-            if line[2] == 'starts-at':
-                pass
+    # # get binary constraints
+    # if 'binary' in line:
+    #     for line in file:
+    #         if '#' in line:
+    #             break
+    #         line = line.strip()
+    #         line = line.replace(',', '')
+    #         line = line.split(' ')
+    #         # print(line)
+    #         t1 = line[1]
+    #         t2 = line[3]
+    #         if line[2] == 'before':
+    #             # print('hhhhhhhh')
+    #             hard_constraint.append(Constraint((t1, t2), binary_before))
+    #
+    #         if line[2] == 'after':
+    #             pass
+    #
+    #         if line[2] == 'same-day':
+    #             hard_constraint.append(Constraint((t1, t2), binary_same_day))
+    #
+    #         if line[2] == 'starts-at':
+    #             pass
 
     # get hard fomain
     if 'domain' in line:

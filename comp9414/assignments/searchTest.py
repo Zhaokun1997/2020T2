@@ -8,7 +8,7 @@
 # Attribution-NonCommercial-ShareAlike 4.0 International License.
 # See: http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en
 
-from searchTest import run
+# from searchTest import run
 import searchProblem
 from searchGeneric import Searcher, AStarSearcher, BFSearcher
 from searchBranchAndBound import DF_branch_and_bound
