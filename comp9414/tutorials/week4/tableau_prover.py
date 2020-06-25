@@ -2,14 +2,16 @@
 
 import nltk
 
+
 def testTableauProver():
     tableau_test('P | -P')
     tableau_test('P & -P')
     tableau_test('Q', ['P', '(P -> Q)'])
 
+
 def tableau_test(c, ps=None, verbose=True):
-    pc =  nltk.sem.Expression.fromstring(c)
-    pps = [ nltk.sem.Expression.fromstring(p) for p in ps] if ps else []
+    pc = nltk.sem.Expression.fromstring(c)
+    pps = [nltk.sem.Expression.fromstring(p) for p in ps] if ps else []
     if not ps:
         ps = []
     print(
@@ -17,5 +19,8 @@ def tableau_test(c, ps=None, verbose=True):
         % (', '.join(ps), pc, nltk.inference.tableau.TableauProver().prove(pc, pps, verbose=verbose))
     )
 
-tableau_test('-(P & Q) -> (-P | -Q)')
-tableau_test('-P | -Q', ['-(P & Q)'])
+
+# tableau_test('((P | Q) & -P) -> Q')
+# tableau_test('((P -> Q) & -(P -> R)) -> (P -> Q)')
+# tableau_test('-(-P & P) & P')
+tableau_test('(P | Q) -> -(-P & -Q)')

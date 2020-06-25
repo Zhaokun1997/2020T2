@@ -6,6 +6,22 @@ from cspConsistency import Search_with_AC_from_CSP
 ###############################
 # BEFORE START OUR ASSIGNMENT #
 ###############################
+
+"""
+A CSP problem for this assignment need:
+1. domains ==> {
+                't1': {(start, end), (start, end)...}, 
+                't2': {(start, end), (start, end)...}
+                }
+2. (hard) contraints ==> [
+                Constraint(('t2',), func_),
+                Constraint(('t1', 't2'), func_relation),
+                Constraint(('t1', 't2'), func_relation),
+                ] 
+3. soft constrains ==> {t1: end-by-time, t2: end-by-time}
+4. soft cost ==>  {t1: 10, t2: 10}
+"""
+
 """
 Change class display in python file display.py:
 change 'max_display_level = 1 to 'max_display_level = 0'
@@ -21,21 +37,6 @@ value = path.cost + self.problem.heuristic(path.end())
 to greedy search algorithm
 value = self.problem.heuristic(path.end())
 in order to handle with our own cost
-"""
-
-"""
-A CSP problem for this assignment need:
-1. domains ==> {
-                't1': {(start, end), (start, end)...}, 
-                't2': {(start, end), (start, end)...}
-                }
-2. (hard) contraints ==> [
-                Constraint(('t2',), func_),
-                Constraint(('t1', 't2'), func_relation),
-                Constraint(('t1', 't2'), func_relation),
-                ] 
-3. soft constrains ==> {t1: end-by-time, t2: end-by-time}
-4. soft cost ==>  {t1: 10, t2: 10}
 """
 
 
@@ -299,14 +300,14 @@ if __name__ == '__main__':
     # print("soft_constraints", soft_constraints)
     # print("soft_cost", soft_cost)
 
-    # create my own constraints:
     # which adds soft_constraints and soft_cost compared with origin
     my_csp = My_CSP(domains, constraints, soft_constraints, soft_cost)
     my_problem = Search_with_AC_from_Cost_CSP(my_csp)
     my_searcher = AStarSearcher(my_problem)
 
     my_solution = my_searcher.search()
-    if my_solution is not None:
+    # print(my_solution)
+    if my_solution is not None:  # there is a solution if finding a path
         final_schedule = my_solution.end()  # find the end node(result) in our solution path
         if final_schedule is not None:
             my_cost = my_problem.heuristic(final_schedule)

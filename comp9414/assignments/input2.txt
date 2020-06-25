@@ -6,7 +6,7 @@ task, t3 2
 constraint, t1 before t2
 constraint, t2 same-day t3
 # domain constraint
-domain, t3 wed
+domain, t3 tue
 # soft deadlines
 domain, t1 ends-by tue 10am 10
-domain, t3 ends-by tue 11am 10
+domain, t3 ends-by tue 10am 20
