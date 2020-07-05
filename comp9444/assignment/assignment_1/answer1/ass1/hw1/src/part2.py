@@ -43,10 +43,10 @@ class LinearModel:
         """
         sig = 0.0
         try:
-        	sig = 1.0 / (1.0 + np.exp(-x))
+            sig = 1.0 / (1.0 + np.exp(-x))
         except ValueError:
-        	print("Value error of parameter")
-       	return sig
+            print("Value error of parameter")
+        return sig
 
     def forward(self, inputs):
         """
@@ -150,7 +150,7 @@ def main():
             preds = output > 0.5  # 0.5 is midline of sigmoid
             num_correct += int(preds == y)
 
-        print(f" Cost: {cost/len(inputs):.2f} Accuracy: {num_correct / len(inputs) * 100:.2f}%")
+        print(f" Cost: {cost / len(inputs):.2f} Accuracy: {num_correct / len(inputs) * 100:.2f}%")
         model.plot(inputs, "C2--")
     model.plot(inputs, "k")
     plt.show()

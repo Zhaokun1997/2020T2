@@ -11,15 +11,17 @@
 from probFactors import Factor, Factor_observed, Factor_sum, factor_times
 from probGraphicalModels import Graphical_model, Inference_method
 
+
 class VE(Inference_method):
     """The class that queries Graphical Models using variable elimination.
 
     gm is graphical model to query
     """
-    def __init__(self,gm=None):
+
+    def __init__(self, gm=None):
         self.gm = gm
 
-    def query(self,var,obs={},elim_order=None):
+    def query(self, var, obs={}, elim_order=None):
         """computes P(var|obs) where
         var is a variable
         obs is a variable:value dictionary"""
@@ -28,32 +30,32 @@ class VE(Inference_method):
         else:
             if elim_order == None:
                 elim_order = self.gm.variables
-            projFactors = [self.project_observations(fact,obs) 
+            projFactors = [self.project_observations(fact, obs)
                            for fact in self.gm.factors]
-            for v in elim_order:   
+            for v in elim_order:
                 if v != var and v not in obs:
-                    projFactors = self.eliminate_var(projFactors,v)
-            unnorm = factor_times(var,projFactors)
-            p_obs=sum(unnorm)
-            self.display(1,"Unnormalized probs:",unnorm,"Prob obs:",p_obs)
-            return {val:pr/p_obs for val,pr in zip(var.domain, unnorm)}
+                    projFactors = self.eliminate_var(projFactors, v)
+            unnorm = factor_times(var, projFactors)
+            p_obs = sum(unnorm)
+            self.display(1, "Unnormalized probs:", unnorm, "Prob obs:", p_obs)
+            return {val: pr / p_obs for val, pr in zip(var.domain, unnorm)}
 
-    def project_observations(self,factor,obs):
+    def project_observations(self, factor, obs):
         """Returns the resulting factor after observing obs
 
         obs is a dictionary of variable:value pairs.
         """
         if any((var in obs) for var in factor.variables):
             # a variable in factor is observed
-            return Factor_observed(factor,obs)
+            return Factor_observed(factor, obs)
         else:
             return factor
 
-    def eliminate_var(self,factors,var):
+    def eliminate_var(self, factors, var):
         """Eliminate a variable var from a list of factors. 
         Returns a new set of factors that has var summed out.
         """
-        self.display(2,"eliminating ",str(var))
+        self.display(2, "eliminating ", str(var))
         contains_var = []
         not_contains_var = []
         for fac in factors:
@@ -64,14 +66,16 @@ class VE(Inference_method):
         if contains_var == []:
             return factors
         else:
-            newFactor = Factor_sum(var,contains_var)
-            self.display(2,"Multiplying:",[f.brief() for f in contains_var])
-            self.display(2,"Creating factor:", newFactor.brief())
+            newFactor = Factor_sum(var, contains_var)
+            self.display(2, "Multiplying:", [f.brief() for f in contains_var])
+            self.display(2, "Creating factor:", newFactor.brief())
             self.display(3, newFactor)  # factor in detail
             not_contains_var.append(newFactor)
             return not_contains_var
 
-from probGraphicalModels import bn1, A,B,C
+
+from probGraphicalModels import bn1, A, B, C
+
 bn1v = VE(bn1)
 ## bn1v.query(A,{})
 ## bn1v.query(C,{})
@@ -80,8 +84,9 @@ bn1v = VE(bn1)
 ## bn1v.query(A,{C:True})
 ## bn1v.query(B,{A:True,C:False})
 
-from probGraphicalModels import bn2,Al,Fi,Le,Re,Sm,Ta
-bn2v = VE(bn2)    # answers queries using variable elimination
+from probGraphicalModels import bn2, Al, Fi, Le, Re, Sm, Ta
+
+bn2v = VE(bn2)  # answers queries using variable elimination
 ## bn2v.query(Ta,{})
 ## Inference_method.max_display_level = 0   # show no detail in displaying
 ## bn2v.query(Le,{})
@@ -90,9 +95,19 @@ bn2v = VE(bn2)    # answers queries using variable elimination
 ## bn2v.query(Ta,{Re:True,Sm:False})
 
 from probGraphicalModels import bn3, Season, Sprinkler, Rained, Grass_wet, Grass_shiny, Shoes_wet
+
 bn3v = VE(bn3)
 ## bn3v.query(Shoes_wet,{})
 ## bn3v.query(Shoes_wet,{Rained:True})
 ## bn3v.query(Shoes_wet,{Grass_shiny:True})
 ## bn3v.query(Shoes_wet,{Grass_shiny:False,Rained:True})
 
+from probGraphicalModels import bn4, B, E, A, J, M
+
+bn4v = VE(bn4)
+result = bn4v.query(B, {A: True})
+for key, value in result.items():
+    if key is False:
+        print("P(-Burglary|Alarm) is : ", value)
+    if key is True:
+        print("P(Burglary|Alarm) is : ", value)

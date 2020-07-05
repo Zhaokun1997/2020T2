@@ -272,18 +272,18 @@ if __name__ == '__main__':
                             condition = uc_ends_after_day_and_time(day, time)
                             constraints.append(Constraint(scope, condition))
                     if data[2] == "starts-in":
-                        start_day = data[3]
-                        start_time = data[4].split('-')[0]
-                        end_day = data[4].split('-')[1]
-                        end_time = data[5]
+                        start_day = day2num[data[3]]
+                        start_time = time2num[data[4].split('-')[0]]
+                        end_day = day2num[data[4].split('-')[1]]
+                        end_time = time2num[data[5]]
                         scope = (data[1],)
                         condition = uc_starts_in_period(start_day, start_time, end_day, end_time)
                         constraints.append(Constraint(scope, condition))
                     if data[2] == "ends-in":
-                        start_day = data[3]
-                        start_time = data[4].split('-')[0]
-                        end_day = data[4].split('-')[1]
-                        end_time = data[5]
+                        start_day = day2num[data[3]]
+                        start_time = time2num[data[4].split('-')[0]]
+                        end_day = day2num[data[4].split('-')[1]]
+                        end_time = time2num[data[5]]
                         scope = (data[1],)
                         condition = uc_ends_in_period(start_day, start_time, end_day, end_time)
                         constraints.append(Constraint(scope, condition))

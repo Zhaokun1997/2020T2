@@ -8,8 +8,8 @@ constraint, t1 after t2
 constraint, t2 same-day t4
 constraint, t3 starts-at t1
 # domain constraint
-domain, t2 ends-before 4pm
 domain, t1 starts-after wed 3pm
+domain, t2 ends-before 4pm
 # soft deadlines
 domain, t1 ends-by fri 3pm 10
 domain, t2 ends-by tue 3pm 20

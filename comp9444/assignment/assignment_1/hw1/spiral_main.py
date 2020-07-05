@@ -96,13 +96,13 @@ if list(net.parameters()):
 
 # save model
 
-for layer in [1, 2]:
-    if layer == 1 or args.net != 'polar':
-        for node in range(args.hid):
-            graph_hidden(net, layer, node)
-            plt.scatter(full_input[:, 0], full_input[:, 1],
-                        c=1 - full_target[:, 0], cmap='RdYlBu')
-            plt.savefig('%s%d_%d.png' % (args.net, layer, node))
+# for layer in [1, 2]:
+#     if layer == 1 or args.net != 'polar':
+#         for node in range(args.hid):
+#             graph_hidden(net, layer, node)
+#             plt.scatter(full_input[:, 0], full_input[:, 1],
+#                         c=1 - full_target[:, 0], cmap='RdYlBu')
+#             plt.savefig('%s%d_%d.png' % (args.net, layer, node))
 
 graph_output(net)
 plt.scatter(full_input[:, 0], full_input[:, 1],
