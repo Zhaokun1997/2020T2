@@ -72,6 +72,7 @@ full_target = data[:, num_input:num_input + 1]
 
 train_dataset = torch.utils.data.TensorDataset(full_input, full_target)
 train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=97)
+# train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=194)
 
 # create neural network
 if args.net == 'polar':
@@ -88,6 +89,7 @@ if list(net.parameters()):
 
     optimizer = torch.optim.Adam(net.parameters(), eps=0.000001, lr=args.lr,
                                  betas=(0.9, 0.999), weight_decay=0.0001)
+    # optimizer = torch.optim.SGD(net.parameters(), lr=args.lr, weight_decay=0.0001)
 
     for epoch in range(1, args.epochs):
         accuracy = train(net, train_loader, optimizer)
@@ -96,13 +98,13 @@ if list(net.parameters()):
 
 # save model
 
-# for layer in [1, 2]:
-#     if layer == 1 or args.net != 'polar':
-#         for node in range(args.hid):
-#             graph_hidden(net, layer, node)
-#             plt.scatter(full_input[:, 0], full_input[:, 1],
-#                         c=1 - full_target[:, 0], cmap='RdYlBu')
-#             plt.savefig('%s%d_%d.png' % (args.net, layer, node))
+for layer in [1, 2]:
+    if layer == 1 or args.net != 'polar':
+        for node in range(args.hid):
+            graph_hidden(net, layer, node)  # output hiden layer values
+            plt.scatter(full_input[:, 0], full_input[:, 1],
+                        c=1 - full_target[:, 0], cmap='RdYlBu')
+            plt.savefig('%s%d_%d.png' % (args.net, layer, node))
 
 graph_output(net)
 plt.scatter(full_input[:, 0], full_input[:, 1],

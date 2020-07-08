@@ -75,12 +75,12 @@ class NetConv(nn.Module):
         :parameter out_channels: the # kinds of filters in conv layer
         :parameter _channels: the height/width of every filter
         """
-        # initially: 1 channel, 16 filters, 3x3 filter size
+        # initially: 1 channel, 24 filters, 5x5 filter size, 2 padding
         num_hid = 90
-        self.conv2d_1 = nn.Conv2d(in_channels=1, out_channels=24, kernel_size=4, stride=1, padding=0, bias=True, padding_mode='zeros')
-        self.conv2d_2 = nn.Conv2d(in_channels=24, out_channels=36, kernel_size=3, stride=1, padding=0, bias=True, padding_mode='zeros')
+        self.conv2d_1 = nn.Conv2d(in_channels=1, out_channels=24, kernel_size=5, stride=1, padding=2, bias=True, padding_mode='zeros')
+        self.conv2d_2 = nn.Conv2d(in_channels=24, out_channels=36, kernel_size=5, stride=1, padding=2, bias=True, padding_mode='zeros')
         self.max_pool2d = nn.MaxPool2d(kernel_size=2)
-        self.full_connected_1 = nn.Linear(900, num_hid, bias=True)
+        self.full_connected_1 = nn.Linear(1764, num_hid, bias=True)
         self.full_connected_2 = nn.Linear(num_hid, 10, bias=True)
         self.ReLU = nn.ReLU(inplace=False)
         self.log_softmax = nn.LogSoftmax(dim=1)

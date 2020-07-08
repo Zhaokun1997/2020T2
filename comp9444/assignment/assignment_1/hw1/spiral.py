@@ -35,8 +35,8 @@ class PolarNet(torch.nn.Module):
 
         # step 2: feed polar input into network
         x = self.full_connected_1(x)
-        x = self.Tanh(x)
-        x = self.full_connected_2(x)
+        self.hid1 = self.Tanh(x)
+        x = self.full_connected_2(self.hid1)
         output = self.Sigmoid(x)
 
         return output
@@ -55,6 +55,7 @@ class RawNet(torch.nn.Module):
         self.full_connected_2 = nn.Linear(num_hid, num_hid, bias=True)  # [num_hid, num_hid]
         self.full_connected_3 = nn.Linear(num_hid, 1, bias=True)  # [num_hid, 1]
         self.Tanh = nn.Tanh()
+        # self.ReLU = nn.ReLU()
         self.Sigmoid = nn.Sigmoid()
 
     """
@@ -64,10 +65,12 @@ class RawNet(torch.nn.Module):
 
     def forward(self, input):
         x = self.full_connected_1(input)
-        x = self.Tanh(x)
-        x = self.full_connected_2(x)
-        x = self.Tanh(x)
-        x = self.full_connected_3(x)
+        self.hid1 = self.Tanh(x)
+        # self.hid1 = self.ReLU(x)
+        x = self.full_connected_2(self.hid1)
+        self.hid2 = self.Tanh(x)
+        # self.hid2 = self.ReLU(x)
+        x = self.full_connected_3(self.hid2)
         output = self.Sigmoid(x)
 
         return output
@@ -88,17 +91,17 @@ class ShortNet(torch.nn.Module):
     def forward(self, input):
         # calculate hid1 output
         x = input
-        y_hid1 = self.Tanh(self.full_connected_input_to_hid1(x))
+        self.hid1 = self.Tanh(self.full_connected_input_to_hid1(x))
 
         # calculate hid2 output
         y_hid2_a = self.full_connected_input_to_hid2(x)
-        y_hid2_b = self.full_connected_hid1_to_hid2(y_hid1)
-        y_hid2 = self.Tanh(y_hid2_a + y_hid2_b)
+        y_hid2_b = self.full_connected_hid1_to_hid2(self.hid1)
+        self.hid2 = self.Tanh(y_hid2_a + y_hid2_b)
 
         # calculate output output
         y_output_a = self.full_connected_input_to_output(x)
-        y_output_b = self.full_connected_hid1_to_output(y_hid1)
-        y_output_c = self.full_connected_hid2_to_output(y_hid2)
+        y_output_b = self.full_connected_hid1_to_output(self.hid1)
+        y_output_c = self.full_connected_hid2_to_output(self.hid2)
         y_output = self.Sigmoid(y_output_a + y_output_b + y_output_c)
 
         return y_output
@@ -106,5 +109,22 @@ class ShortNet(torch.nn.Module):
 
 def graph_hidden(net, layer, node):
     plt.clf()
-    # INSERT CODE HERE
+    xrange = torch.arange(start=-7, end=7.1, step=0.01, dtype=torch.float32)
+    yrange = torch.arange(start=-6.6, end=6.7, step=0.01, dtype=torch.float32)
+    xcoord = xrange.repeat(yrange.size()[0])
+    ycoord = torch.repeat_interleave(yrange, xrange.size()[0], dim=0)
+    grid = torch.cat((xcoord.unsqueeze(1), ycoord.unsqueeze(1)), 1)
 
+    with torch.no_grad():  # suppress updating of gradients
+        net.eval()  # toggle batch norm, dropout
+        net(grid)
+        if layer == 1:
+            pred = (net.hid1[:, node] >= 0).float()  # tanh(): we have one class for >= 0, < 0 for another
+        if layer == 2:
+            pred = (net.hid2[:, node] >= 0).float()
+
+        # net.train()  # toggle batch norm, dropout back again
+        # pred = (output >= 0.5).float()
+        # plot function computed by model
+        plt.clf()
+        plt.pcolormesh(xrange, yrange, pred.cpu().view(yrange.size()[0], xrange.size()[0]), cmap='Wistia')

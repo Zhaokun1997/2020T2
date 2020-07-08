@@ -2,7 +2,7 @@
 
 if test $# -ne 0
 then
-    echo "Usage: $0..."
+    echo "Usage: $0"
     exit 1
 fi
 
@@ -62,7 +62,20 @@ do
 
 
             else  # when file in local, in index, not in repo
-                echo "$file - added to index"
+
+
+
+
+                # compare differences
+                if diff -q "$file" "$index_file" > /dev/null  # local_file == index_file
+                then
+                    echo "$file - added to index"
+                else  # local_file != index_file
+                    echo "$file - added to index, file changed"
+                fi
+
+
+
             fi
         else  # when file in local, not in index
             if test -e "$repo_file"  # when file in local, not in index, in repo
@@ -79,7 +92,7 @@ do
             then
                 echo "$file - file deleted"
             else  # when file is not in local, but in index, not in repo
-                echo "$file - file exists in index, not in local and repo"
+                echo "$file - added to index, file deleted"
             fi
         else  # when file is not in local, not in index
             if test -e "$repo_file"  # when file is not in local, not in index, but in repo
