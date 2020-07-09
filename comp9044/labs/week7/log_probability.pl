@@ -38,12 +38,14 @@ foreach my $artist_name (sort keys %artist_hash)
     }
     if ($artist_hash{$artist_name}{$query_word})
     {
-        $word_rate = $artist_hash{$artist_name}{$query_word} / $sum_count_words;
-        printf "%4d/%6d = %.9f %s\n", $artist_hash{$artist_name}{$query_word}, $sum_count_words, $word_rate, $artist_name;
+        $word_rate = ($artist_hash{$artist_name}{$query_word} + 1) / $sum_count_words;
+        $log_prob = log($word_rate);
+        printf "log((%d+1)/%6d) = %8.4f %s\n", $artist_hash{$artist_name}{$query_word}, $sum_count_words, $log_prob, $artist_name;
     }
     else
     {
-        $word_rate = 0 / $sum_count_words;
-        printf "%4d/%6d = %.9f %s\n", 0, $sum_count_words, $word_rate, $artist_name;
+        $word_rate = 1 / $sum_count_words;
+        $log_prob = log($word_rate);
+        printf "log((%d+1)/%6d) = %8.4f %s\n", 0, $sum_count_words, $log_prob, $artist_name;
     }
 }

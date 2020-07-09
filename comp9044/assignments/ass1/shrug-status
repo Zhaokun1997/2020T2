@@ -21,9 +21,9 @@ fi
 last_commit_id=$(cat .shrug/shrug.log | head -1 | cut -d ' ' -f1)
 if echo "$last_commit_id" | egrep '[0-9]+' > /dev/null  # if there is record in commit_log
 then
-    all_files=$(find ./ .shrug/index/ .shrug/repo/$last_commit_id -type f | egrep -v 'shrug\.log|test.*|Diary|shrug-.*' | sed 's/.*\// /g' | sort | uniq | sort)
+    all_files=$(find ./ .shrug/index/ .shrug/repo/$last_commit_id -type f | egrep -v 'shrug\.log|test.*|diary|shrug-.*' | sed 's/.*\// /g' | sort | uniq | sort)
 else
-    all_files=$(find ./ .shrug/index/ -type f | egrep -v 'shrug\.log|test.*|Diary|shrug-.*' | sed 's/.*\// /g' | sort | uniq | sort)
+    all_files=$(find ./ .shrug/index/ -type f | egrep -v 'shrug\.log|test.*|diary|shrug-.*' | sed 's/.*\// /g' | sort | uniq | sort)
 fi
 
 
@@ -37,8 +37,6 @@ do
         then
             if test -e "$repo_file"  # when file in local, in index, in repo
             then
-
-
 
 
                 # compare differences
@@ -60,10 +58,7 @@ do
                 fi
 
 
-
             else  # when file in local, in index, not in repo
-
-
 
 
                 # compare differences
@@ -73,7 +68,6 @@ do
                 else  # local_file != index_file
                     echo "$file - added to index, file changed"
                 fi
-
 
 
             fi

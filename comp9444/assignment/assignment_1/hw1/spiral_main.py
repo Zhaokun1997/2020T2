@@ -97,7 +97,6 @@ if list(net.parameters()):
             break
 
 # save model
-
 for layer in [1, 2]:
     if layer == 1 or args.net != 'polar':
         for node in range(args.hid):

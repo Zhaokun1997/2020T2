@@ -30,3 +30,9 @@ Date        Start       Stop        Activity        Comments
 20/07/06    15:30       21:30	    coding shrug-status     keep implementing basic status functionality
 20/07/06	22:00       23:00       debugging               keep finding bugs shrug-status
 # subset_1 done
+
+
+# handle with test shell
+20/07/09    10:00       14:00	    coding test00--04.sh    testing shell 00 to 04
+20/07/09    15:30       21:30	    coding test05--09.sh    testing shell 05 to 09
+# test shell done

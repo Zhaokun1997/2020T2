@@ -19,6 +19,7 @@ class PolarNet(torch.nn.Module):
         self.Tanh = nn.Tanh()
         self.Sigmoid = nn.Sigmoid()
 
+
     """
     input.shape: [64, 2]
     batch_size: 64 coordinate: (x, y)
@@ -128,3 +129,4 @@ def graph_hidden(net, layer, node):
         # plot function computed by model
         plt.clf()
         plt.pcolormesh(xrange, yrange, pred.cpu().view(yrange.size()[0], xrange.size()[0]), cmap='Wistia')
+
