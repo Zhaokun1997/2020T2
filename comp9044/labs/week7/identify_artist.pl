@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-use List::Util qw(min max);
+# use List::Util qw(min max);
 
 die "Usage: $0 <list_files>\n" if @ARGV < 1;
 
@@ -31,6 +31,9 @@ foreach $file (glob "lyrics/*.txt")
 
 foreach $file (@ARGV)
 {
+    # reset hash artist_sum_log
+    %artist_sum_log = ();
+
     # read lyrics from every artist
     open my $in, '<', "$file" or die "Cannot open $file: $!\n";
     while ($line = <$in>)
@@ -64,8 +67,10 @@ foreach $file (@ARGV)
         }
     }
     # find max value
+
     @log_values = (values %artist_sum_log);
-    $max_log_prob = max(@log_values);
+    @log_values = sort @log_values;
+    $max_log_prob = shift @log_values;
     for $key (keys %artist_sum_log)
     {
         if ($artist_sum_log{$key} == $max_log_prob)
@@ -75,6 +80,3 @@ foreach $file (@ARGV)
     }
     close $in;
 }
-
-
-
