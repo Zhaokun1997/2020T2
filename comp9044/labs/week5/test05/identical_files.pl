@@ -1,11 +1,6 @@
 #!/usr/bin/perl -w
 
 
-# foreach $file (@ARGV)
-# {
-
-# }
-
 die "Usage: $0 <infile> <outfile>\n" if @ARGV != 2;
 
 
