@@ -5,7 +5,7 @@ import pandas as pd
 import re
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
-from sklearn.naive_bayes import MultinomialNB, BernoulliNB
+from sklearn.naive_bayes import MultinomialNB
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 
@@ -32,7 +32,6 @@ def load_data():
     train_data = pd.read_csv(train_file, sep='\t', header=None)
     test_data = pd.read_csv(test_file, sep='\t', header=None)
     return train_data, test_data
-
 
 
 def remove_stop_words(line):
@@ -90,8 +89,8 @@ def create_count_vectorizer(train_X, test_X):
     # set word to be at least two letters using 'token_pattern'
     # max_features indicates the top n frequency words in bag_of_words
 
-    # count = CountVectorizer(token_pattern='[a-zA-Z0-9@#$_%]{2,}', max_features=1000, lowercase=True)
-    count = CountVectorizer(token_pattern='[a-zA-Z0-9@#$_%]{2,}', max_features=1000, lowercase=False)
+    count = CountVectorizer(token_pattern='[a-zA-Z0-9@#$_%]{2,}', lowercase=True)
+    # count = CountVectorizer(token_pattern='[a-zA-Z0-9@#$_%]{2,}', max_features=1000, lowercase=False)
     train_X_bag_of_words = count.fit_transform(train_X)
 
     # transform the test data into bag of words creaed with fit_transform
@@ -101,7 +100,7 @@ def create_count_vectorizer(train_X, test_X):
 
 def print_result(test_index, predicted_labels):
     for i in range(0, len(predicted_labels)):
-        print(test_index[i], predicted_labels[i])
+        print(str(test_index[i]), predicted_labels[i])
     return
 
 
@@ -144,5 +143,5 @@ if __name__ == '__main__':
 
     # predict and print results
     predicted_y = MNB_model.predict(test_X_bag_of_words)
-    # print_result(valid_test_index, predicted_y)
-    print_report()
+    print_result(valid_test_index, predicted_y)
+    # print_report()
