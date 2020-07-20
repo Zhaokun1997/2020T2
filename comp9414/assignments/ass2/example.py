@@ -6,7 +6,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
 from sklearn import tree
 
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
+# from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 
 def predict_and_test(model, X_test_bag_of_words):
@@ -27,15 +27,15 @@ X = text_data
 y = ['positive', 'positive', 'negative', 'positive', 'negative']
 
 # analyse with VADER
-analyser = SentimentIntensityAnalyzer()
-for text in text_data:
-    score = analyser.polarity_scores(text)
-    if score['compound'] >= 0.05:
-        print(text + ": " + "VADER positive")
-    elif score['compound'] <= -0.05:
-        print(text + ": " + "VADER negative")
-    else:
-        print(text + ": " + "VADER neutral")
+# analyser = SentimentIntensityAnalyzer()
+# for text in text_data:
+#     score = analyser.polarity_scores(text)
+#     if score['compound'] >= 0.05:
+#         print(text + ": " + "VADER positive")
+#     elif score['compound'] <= -0.05:
+#         print(text + ": " + "VADER negative")
+#     else:
+#         print(text + ": " + "VADER neutral")
 
 # split into train and test
 X_train = X[:3]
@@ -46,6 +46,12 @@ y_test = y[3:]
 # create count vectorizer and fit it with training data
 count = CountVectorizer()
 X_train_bag_of_words = count.fit_transform(X_train)
+print("vocabulary")
+print(count.vocabulary_)
+print("X_train_bag_of_words: ")
+print(X_train_bag_of_words)
+print("count: ")
+print(count)
 
 # transform the test data into bag of words creaed with fit_transform
 X_test_bag_of_words = count.transform(X_test)
