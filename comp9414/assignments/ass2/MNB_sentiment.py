@@ -60,7 +60,7 @@ def apply_stem_words(line):
 # preporcessing all content
 def contents_pre_processing_without_stopwords_stem(contents):
     url_pattern = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[!*(),]|[$-_@.&+]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
-    junk_char_pattern = re.compile(r'[^a-zA-Z0-9@#$_%\s]')
+    junk_char_pattern = re.compile(r'[^a-zA-Z@#$_%\s\d]')
     final_contents = []
     for line in contents:
         line_rm_url = re.sub(url_pattern, ' ', line)  # remove urls
@@ -72,7 +72,7 @@ def contents_pre_processing_without_stopwords_stem(contents):
 
 def contents_pre_processing_with_stopwords_stem(contents):
     url_pattern = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[!*(),]|[$-_@.&+]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
-    junk_char_pattern = re.compile(r'[^a-zA-Z0-9@#$_%\s]')
+    junk_char_pattern = re.compile(r'[^a-zA-Z@#$_%\s\d]')
     final_contents = []
     for line in contents:
         line_rm_url = re.sub(url_pattern, ' ', line)  # remove urls
@@ -89,7 +89,7 @@ def create_count_vectorizer(train_X, test_X):
     # set word to be at least two letters using 'token_pattern'
     # max_features indicates the top n frequency words in bag_of_words
 
-    count = CountVectorizer(token_pattern='[a-zA-Z0-9@#$_%]{2,}', lowercase=True)
+    count = CountVectorizer(token_pattern='[a-zA-Z0-9@#$_%]{2,}', lowercase=False)
     # count = CountVectorizer(token_pattern='[a-zA-Z0-9@#$_%]{2,}', max_features=1000, lowercase=False)
     train_X_bag_of_words = count.fit_transform(train_X)
 

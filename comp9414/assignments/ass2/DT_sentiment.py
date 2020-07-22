@@ -90,7 +90,7 @@ def create_count_vectorizer(train_X, test_X):
     # set word to be at least two letters using 'token_pattern'
     # max_features indicates the top n frequency words in bag_of_words
 
-    count = CountVectorizer(token_pattern='[a-zA-Z0-9@#$_%]{2,}', max_features=1000, lowercase=True)
+    count = CountVectorizer(token_pattern='[a-zA-Z0-9@#$_%]{2,}', max_features=1000, lowercase=False)
     # count = CountVectorizer(token_pattern='[a-zA-Z0-9@#$_%]{2,}', max_features=1000, lowercase=False)
     train_X_bag_of_words = count.fit_transform(train_X)
 
